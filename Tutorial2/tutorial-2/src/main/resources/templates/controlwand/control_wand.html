@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Control Wand</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="min-h-screen w-full bg-gray-100 py-24 flex flex-col items-center">
+      <div class="grid grid-cols-2 gap-4">
+        <div class="bg-white rounded-lg shadow p-6">
+          <h3 class="text-2xl font-bold">Entity List</h3>
+          <div class="flex flex-col gap-4 mt-4">
+            <div class="flex flex-col" th:each="entity: ${entities}">
+              <div
+                class="bg-blue-200 rounded-full px-4 py-1 flex items-center justify-between gap-8"
+              >
+                <span th:text="${entity.getName()}" class="font-bold text-blue-800"
+                  >Entity name</span
+                >
+                <div>
+                  <span class="text-xs text-slate-500 mr-1">STATE</span>
+                  <span th:text="${entity.getCurrentState()}" class="font-bold"> SUMMONED </span>
+                </div>
+              </div>
+              <span class="text-xs text-slate-800 ml-4 mt-2 mb-2 uppercase">activity archive</span>
+              <ol class="list-disc list-inside ml-4 text-sm">
+                <li th:each="archive: ${entity.getLifeArchive()}" th:text="${archive}">Activity</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6 w-96">
+          <div class="flex justify-between items-center">
+            <h3 class="text-2xl font-bold">Spell List</h3>
+            <form class="form-group" th:action="@{undo}" method="GET">
+              <button
+                class="bg-gray-500 text-white rounded px-4 py-1 font-bold uppercase text-sm hover:bg-gray-600"
+                type="submit"
+              >
+                Undo
+              </button>
+            </form>
+          </div>
+          <div class="flex flex-col divide-y mt-2">
+            <form
+              class="flex justify-between py-2"
+              th:action="@{cast}"
+              method="POST"
+              th:each="spellName: ${spellNames}"
+            >
+              <div th:text="${spellName}" class="align-content-center">ToolFamiliar:SEALED</div>
+              <input type="hidden" name="spellName" th:value="${spellName}" />
+              <button
+                class="bg-blue-500 text-white rounded px-4 py-1 font-bold uppercase text-sm hover:bg-blue-600"
+                type="submit"
+              >
+                Cast
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="w-full text-center mt-4">
+        <a
+          th:href="@{/contract-form}"
+          class="text-blue-500 hover:text-blue-600 mt-4 cursor-pointer no-underline hover:underline"
+          >Go to Contract Form</a
+        >
+      </div>
+    </div>
+  </body>
+</html>

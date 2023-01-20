@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Delete Song from Playlist</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+<div class="my-8 d-flex justify-content-center">
+    <div class="container">
+        <div class="row justify-content-md-center my-4">
+            <div class="col-md-8">
+                <h5>Delete Song from <span th:text="${playlist.getName()}"></span></h5>
+                <p>Select the songs to be removed from the playlist</p>
+                <form th:action="@{/music-player/{id}/delete-song(id=${playlist.getId()})}" method="post">
+                    <div th:each="song : ${songs}" class="form-check my-1">
+                        <input class="form-check-input" name="songId" type="checkbox" th:value="${song.getId()}">
+                        <label class="form-check-label" th:text="${song.getName()}"></label>
+                    </div>
+                    <button type="submit" class="btn btn-primary my-2">Delete Song</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+</script>
+</body>
+
+</html>

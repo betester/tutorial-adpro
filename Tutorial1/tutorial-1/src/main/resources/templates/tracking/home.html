@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Routes Tracking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="min-h-screen w-full bg-gray-100 flex flex-col py-16 items-center">
+      <h3 class="font-bold text-center text-xl mb-4">Routes Tracking</h3>
+      <div class="grid grid-cols-2 gap-8">
+        <div class="flex flex-col gap-4">
+          <div class="bg-white rounded-lg shadow p-6">
+            <h5 class="text-gray-500 font-bold mb-2">Drago's Next Location</h5>
+            <form class="flex gap-2" th:action="@{/tracking/new-drago-location}" method="POST">
+              <div class="relative flex-1">
+                <select
+                  th:name="dragoLocation"
+                  id="dragoLocationSelect"
+                  class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                >
+                  <option value="None">None</option>
+                  <option value="Shefburg Path">Shefburg Path</option>
+                  <option value="Cardham Morass">Cardham Morass</option>
+                  <option value="Vottona Edge">Vottona Edge</option>
+                </select>
+                <div
+                  class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+                >
+                  <svg
+                    class="fill-current h-4 w-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <button class="bg-blue-500 hover:bg-blue-600 text-white px-6 rounded" type="submit">
+                Send Drago!
+              </button>
+            </form>
+          </div>
+          <div class="bg-white rounded-lg shadow p-6">
+            <h5 class="text-gray-500 font-bold mb-2">Sweet's Event Next Location</h5>
+            <form class="flex gap-2" th:action="@{/tracking/new-sweets-location}" method="POST">
+              <div class="inline-block relative w-52 flex-1">
+                <select
+                  th:name="sweetsLocation"
+                  id="sweetsLocationSelect"
+                  class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                >
+                  <option value="None">None</option>
+                  <option value="Shefburg Path">Shefburg Path</option>
+                  <option value="Cardham Morass">Cardham Morass</option>
+                  <option value="Vottona Edge">Vottona Edge</option>
+                </select>
+                <div
+                  class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+                >
+                  <svg
+                    class="fill-current h-4 w-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <button class="bg-blue-500 hover:bg-blue-600 text-white px-6 rounded" type="submit">
+                Start Sweets Event!
+              </button>
+            </form>
+          </div>
+        </div>
+        <div>
+          <div class="flex flex-col gap-4">
+            <div class="bg-white rounded-lg shadow p-6" th:each="roadUser: ${roadUsers}">
+              <h5
+                class="bg-blue-100 rounded-full text-center py-1 text-blue-900 font-bold text-lg"
+                th:text="${roadUser.getName()}"
+              >
+                Hey
+              </h5>
+              <div class="text-sm uppercase ml-2 text-gray-600 mt-2 mb-1 font-bold">
+                Can currently pass
+              </div>
+              <ol class="list-disc list-inside" th:each="allowedLocation : ${roadUser.getAllowedRoutes()}">
+                <li th:text="${allowedLocation}"></li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

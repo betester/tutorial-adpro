@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+    <h3 th:if="${name!=null}" th:text="${'Welcome home, ' + name}"></h3>
+    <h3 th:unless="${name!=null}"></h3>
+</body>
+</html>

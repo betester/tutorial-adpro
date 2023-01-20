@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Linguamorphism</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 w-screen h-screen grid place-items-center">
+    <div class="max-w-screen-md w-full p-8 text-center bg-white rounded-lg shadow">
+      <h1 class="font-bold text-4xl mb-4">Linguamorphism</h1>
+      <h4 class="mb-4 text-gray-500">
+        This tool with translate archaic/ancient language into latin and <i>vice versa</i>.
+      </h4>
+      <form th:action="@{/linguamorphism/parseLanguage}" method="POST" class="flex flex-col gap-4">
+        <div class="form-group grid grid-cols-3 gap-4">
+          <input
+            type="text"
+            class="col-span-2 bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+            name="text"
+            id="title-quest"
+            placeholder="Enter a spell to encode"
+          />
+          <div class="relative">
+            <select
+              class="block appearance-none w-full bg-gray-100 border-2 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+              name="type"
+            >
+              <option value="" selected disabled>Select lingua</option>
+              <option value="encode" th:text="${'Translate to Archaic'}"></option>
+              <option value="decode" th:text="${'Translate to Latin'}"></option>
+            </select>
+            <div
+              class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+            >
+              <svg
+                class="fill-current h-4 w-4"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <button
+          type="submit"
+          class="bg-blue-500 rounded-md hover:bg-blue-600 text-white cursor-pointer transition px-4 py-2"
+        >Translate</button>
+        <div
+            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+        >
+          <svg
+              class="fill-current h-4 w-4"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+                d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+            />
+          </svg>
+        </div>
+      </form>
+    </div>
+
+<!-- Shifter -->
+<div class="max-w-screen-md w-full p-8 text-center bg-white rounded-lg shadow">
+  <h1 class="font-bold text-4xl mb-4">Shifter Tool</h1>
+  <h4 class="mb-4 text-gray-500">
+    This tool will shift text in Aeron lingua by a number.
+  </h4>
+  <form th:action="@{/linguamorphism/shifter}" method="POST" class="flex flex-col gap-4">
+    <div class="form-group grid grid-cols-3 gap-4">
+      <input
+        type="text"
+        class="col-span-2 bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+        name="shiftertext"
+        id="title-quest"
+        placeholder="Enter a spell to shift"
+      />
+      <div class="relative">
+        <input
+          class="block appearance-none w-full bg-gray-100 border-2 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+          name="shiftby" type="number"
+        >
+      </div>
+    </div>
+    <button
+      type="submit"
+      class="bg-blue-500 rounded-md hover:bg-blue-600 text-white cursor-pointer transition px-4 py-2"
+    >Translate</button>
+    <div
+        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+    >
+      <svg
+          class="fill-current h-4 w-4"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+            d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+        />
+      </svg>
+    </div>
+      <div th:if=${shiftertextinput}>
+        <h3>Result:</h3>
+        <h4 th:text="${shiftertextinput} + ' shift ' + ${shifterby} + ' -> ' + ${shiftertextoutput}"></h4>
+      </div>
+      </form>
+    </div>
+
+    <!-- Cipher tool -->
+    <div class="max-w-screen-md w-full p-8 text-center bg-white rounded-lg shadow">
+      <h1 class="font-bold text-4xl mb-4">Cipher Tool</h1>
+      <h4 class="mb-4 text-gray-500">
+        This tool will encode or decode text in Aeron lingua.
+      </h4>
+      <form th:action="@{/linguamorphism/cipher}" method="POST" class="flex flex-col gap-4">
+        <div class="form-group grid grid-cols-3 gap-4">
+          <input
+            type="text"
+            class="col-span-2 bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+            name="ciphertext"
+            id="title-quest"
+            placeholder="Enter a spell to translate"
+          />
+          <div class="relative">
+            <select
+              class="block appearance-none w-full bg-gray-100 border-2 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+              name="ciphertype"
+            >
+              <option value="" selected disabled>Select Action</option>
+              <option value="encode" th:text="${'Encode'}"></option>
+              <option value="decode" th:text="${'Decode'}"></option>
+            </select>
+            <div
+              class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+            >
+              <svg
+                class="fill-current h-4 w-4"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <button
+          type="submit"
+          class="bg-blue-500 rounded-md hover:bg-blue-600 text-white cursor-pointer transition px-4 py-2"
+        >Translate</button>
+        <div
+            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+        >
+          <svg
+              class="fill-current h-4 w-4"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+                d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+            />
+          </svg>
+        </div>
+          <div th:if=${ciphertextinput}>
+            <h3>Result:</h3>
+            <h4 th:text="${action} + ' ' + ${ciphertextinput} + ' -> ' + ${ciphertextoutput}"></h4>
+          </div>
+          </form>
+        </div>
+
+</body>
+</html>

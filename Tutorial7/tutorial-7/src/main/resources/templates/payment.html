@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Homepage</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous">
+    </script>
+</head>
+<body>
+    <div class = "container justify-content-center">
+        <h1>VA Payment</h1>
+        <form id="submit_form" action="/api/pay">
+            <div class="block">VA Number</div>
+            <div class="col-span-3"><input type="number" name="va" id="vainput"></div>
+
+            <div class="block">Pay Amount</div>
+            <div class="col-span-3"><input type="number" name="payAmount" id="payamountinput"></div>
+
+            <div class="block">Day</div>
+                <div class="col-span-3">
+                <select name="day" id="dayinput">
+                    <option value="Monday">Monday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Saturday">Saturday</option>
+                </select>
+            </div>
+
+            <div class="block">Time</div>
+                <div class="col-span-3">
+                <select name="time" id="timeinput">
+                    <option value="12:00">12:00</option>
+                    <option value="14:30">14:30</option>
+                    <option value="15:50">15:50</option>
+                    <option value="17:00">17:00</option>
+                </select>
+            </div>
+
+            <button class="btn btn-outline-secondary" type="submit" id="submit_button">Generate!</button>
+        </form>
+        <div id="result">
+            <div id="loading_spinner" style="display:none">
+                <img class="mx-auto d-block img-fluid" th:src="@{/spinner-green.gif}" />
+            </div>
+            <div id="va_result"></div>
+            <div id="execution_time"></div>
+        </div>
+    </div>
+</body>
+
+<script>
+    $(document).ready(function() {
+        $("#submit_form").submit(function(event) {
+
+            $("#submit_button").prop('disabled', true);
+            
+            event.preventDefault();
+
+            // dapetin data form
+            var $form = $( this ), send_to = $form.attr('action')
+            var formData = {
+                va: $('#vainput').val(),
+                payAmount: $('#payamountinput').val(),
+                day: $('#dayinput').val(),
+                time: $("#timeinput").val()
+            };
+
+            nformdata = JSON.stringify(formData);
+
+            $.ajax({
+                type: "post",
+                url: send_to,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                headers: {
+                        'Content-Type':'application/json',
+                },
+                data: nformdata, 
+                beforeSend: function() {
+                    $("#loading_spinner").css("display", "block");
+                    $("#va_result").css("display", "none")
+                    $("#execution_time").css("display", "none")
+                },
+                success: function(data_returned, textStatus, jqXHR) {
+
+                    $("#loading_spinner").css("display", "none");
+                    $("#submit_button").prop('disabled', false);
+                    $("#va_result").text(data_returned.message)
+                    if(data_returned.ok === 1) {
+                        $("#va_result").css("color", "green")
+                    } else {
+                        $("#va_result").css("color", "red")
+                    }
+                    $("#execution_time").text("Exection time: " + data_returned.time + " ms")
+                    $("#va_result").css("display", "inline")
+                    $("#execution_time").css("display", "inline")
+
+                },
+                error: function(data_returned) {
+
+                    $("#loading_spinner").css("display", "none");
+                    $("#submit_button").prop("disabled", false);
+                }
+            });
+
+
+        })
+    })
+</script>
+</html>

@@ -1,0 +1,30 @@
+image: gradle:7.4-jdk11
+
+before_script:
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+
+stages:
+  - build
+  - test
+
+build:
+  stage: build
+  script:
+    - gradle assemble
+  artifacts:
+    paths:
+      - build/libs/*.jar
+    expire_in: 1 day
+
+test:
+  stage: test
+  script:
+    - export SPRING_PROFILES_ACTIVE=test
+    - gradle check --stacktrace
+    - gradle test --stacktrace
+    - gradle jacocoTestReport
+    - cat  build/reports/jacoco/test/html/index.html
+  artifacts:
+    paths:
+      - build/reports/jacoco/*
+    expire_in: 1 day

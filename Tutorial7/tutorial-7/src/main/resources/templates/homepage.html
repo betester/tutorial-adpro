@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Homepage</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous">
+    </script>
+</head>
+<body>
+    <div class = "container justify-content-center">
+        <h1>Create New Virtual Account</h1>
+        <form id="submit_form" action="/api/new-va">
+            <div class="block">VA Payment Amount</div>
+            <div class="col-span-3"><input type="number" name="amount" id="amountinput"></div>
+
+            <div class="block">Bank Name</div>
+                <div class="col-span-3">
+                <select name="bank" id="bankinput">
+                    <option value="Ginko">Ginko Bank</option>
+                    <option value="Goblin">Goblin Bank</option>
+                </select>
+            </div>
+
+            <button class="btn btn-outline-secondary" type="submit" id="submit_button">Generate!</button>
+        </form>
+        <div id="result">
+            <div id="loading_spinner" style="display:none">
+                <img class="mx-auto d-block img-fluid" th:src="@{/spinner-green.gif}" />
+            </div>
+            <div id="va_result"></div>
+        </div>
+    </div>
+</body>
+
+<script>
+    $(document).ready(function() {
+        $("#submit_form").submit(function(event) {
+
+            $("#submit_button").prop('disabled', true);
+            
+            event.preventDefault();
+
+            // dapetin data form
+            var $form = $( this ), send_to = $form.attr('action')
+            var formData = {
+                vaAmount: $('#amountinput').val(),
+                bank: $('#bankinput').val()
+            };
+
+            nformdata = JSON.stringify(formData);
+
+            $.ajax({
+                type: "post",
+                url: send_to,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                headers: {
+                        'Content-Type':'application/json',
+                },
+                data: nformdata, 
+                beforeSend: function() {
+                    $("#loading_spinner").css("display", "block");
+                    $("#va_result").css("display", "none")
+                },
+                success: function(data_returned, textStatus, jqXHR) {
+
+                    //console.log("returned", data_returned);
+                    $("#loading_spinner").css("display", "none");
+                    $("#submit_button").prop('disabled', false);
+                    $("#va_result").text("Successfully created new VA: " + data_returned.va)
+                    $("#va_result").css("display", "inline")
+
+                },
+                error: function(data_returned) {
+
+                    //$("#loading_content").css('display', "none");
+                    $("#loading_spinner").css("display", "none");
+                    $("#submit_button").prop("disabled", false);
+                }
+            });
+
+
+        })
+    })
+</script>
+</html>

@@ -1,0 +1,37 @@
+image: gradle:7.4-jdk-11-alpine
+
+
+
+before_script:
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+
+
+stages:
+  - sonarqube_check
+  - deploy
+
+
+sonarqube_staging:
+  stage: sonarqube_check
+  only:
+    - master
+    - staging
+  variables:
+    GIT_DEPTH: 0
+  script:
+    - gradle sonarqube
+  allow_failure: true
+
+deploy_staging:
+  stage: deploy
+  image: ruby:latest
+  only:
+    - staging
+    - master
+  before_script:
+    - gem install dpl
+    - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
+  script:
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
+    - export HEROKU_API_KEY=$HEROKU_API_KEY
+    - heroku run --app $HEROKU_APP_NAME migrate

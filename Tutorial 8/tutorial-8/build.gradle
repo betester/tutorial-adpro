@@ -1,0 +1,35 @@
+description = """
+Gradle build script for Advanced Programming 2019/2020 lab exercises.
+"""
+
+group 'id.ac.ui.cs.advprog'
+version '1.0-SNAPSHOT'
+
+
+// Project-wide constants
+ext.java_version = '11'
+ext.java_version = '11'
+ext.junit4_version = '4.13'
+ext.junit5_jupiter_version = '5.6.0'
+ext.mockito_version = '3.2.4'
+ext.project_rootdir = project.rootDir.toString()
+
+// Subprojects configuration
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
+
+    sourceCompatibility = java_version
+    targetCompatibility = java_version
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        testImplementation group: 'org.mockito', name: 'mockito-core', version: mockito_version
+        testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: junit5_jupiter_version
+    }
+}
+

@@ -1,0 +1,42 @@
+plugins {
+    id 'org.springframework.boot' version '2.6.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'id.ac.ui.cs.advancedprogramming'
+version = '1.0-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+    maven { url 'https://repo.spring.io/snapshot' }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    testImplementation group: 'org.mockito', name: 'mockito-inline', version: '4.3.1'
+    implementation 'org.webjars:jquery:3.6.0'
+    implementation 'org.webjars:bootstrap:5.1.1'
+    implementation 'org.webjars:popper.js:2.9.3'
+    testImplementation group: 'org.mockito', name: 'mockito-inline', version: '4.3.1'
+}
+
+test {
+    useJUnitPlatform()
+}

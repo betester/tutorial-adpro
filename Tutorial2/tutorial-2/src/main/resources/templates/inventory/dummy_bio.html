@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title th:text="'Dummy #' + ${dummyIndex}"></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="bg-gray-100 min-h-screen w-full flex justify-center py-24">
+      <div class="bg-white rounded-lg shadow p-6 max-w-xl w-full flex flex-col">
+        <h1
+          class="text-xl font-bold bg-blue-100 rounded-lg py-2 text-blue-900 px-4"
+          th:text="'Dummy #' + ${dummyIndex+1}"
+        >
+          Dummy #1
+        </h1>
+        <div class="grid grid-cols-3 mt-1 gap-1">
+          <div class="bg-blue-50 rounded-lg py-1">
+            <div class="text-xs text-gray-500 uppercase text-center">Weight</div>
+            <div th:text="${dummy.getWeight()}" class="text-center font-bold text-lg">8.0</div>
+          </div>
+          <div class="bg-blue-50 rounded-lg py-1">
+            <div class="text-xs text-gray-500 uppercase text-center">Type</div>
+            <div th:text="${dummy.getType()}" class="text-center font-bold text-lg">RANGED</div>
+          </div>
+          <div class="bg-blue-50 rounded-lg py-1">
+            <div class="text-xs text-gray-500 uppercase text-center">Weapon</div>
+            <div th:text="${dummy.getWeapon()}" class="text-center font-bold text-lg">
+              Mars Arrow
+            </div>
+          </div>
+        </div>
+        <h2 th:text="Log" class="text-sm text-gray-700 uppercase mt-4 border-b pb-1 mb-2">Log</h2>
+        <div class="flex-1">
+          <ol class="list-decimal list-outside pl-6">
+            <li th:each="dummyLog: ${dummy.getDummyLog()}" th:text="${dummyLog}">log</li>
+          </ol>
+        </div>
+        <div class="flex justify-between items-end">
+          <form th:action="@{/remove-dummy/{index}(index = ${dummyIndex})}" th:method="delete">
+            <button
+              class="border border-red-500 text-red-500 hover:bg-red-600 hover:text-white transition px-6 py-2 rounded-md text-sm uppercase font-bold"
+              type="submit"
+            >
+              Remove this Dummy
+            </button>
+          </form>
+          <a
+            th:href="@{/dummy-inventory}"
+            class="text-blue-500 hover:text-blue-600 no-underline hover:underline cursor-pointer"
+            >Back to Inventory</a
+          >
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

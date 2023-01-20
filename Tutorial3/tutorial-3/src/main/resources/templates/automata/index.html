@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Multiversal Warehouse</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div class="bg-gray-100 w-full min-h-screen flex flex-col justify-center items-center py-16">
+  <div class="flex max-w-screen-lg w-full mx-auto gap-6 items-start">
+    <div class="flex-1 p-8 bg-white rounded-lg shadow">
+      <h1 class="font-bold text-3xl mb-4">Automata Units</h1>
+      <div class="flex flex-col gap-4">
+        <div class="border rounded-lg p-2" th:each="automata: ${automatas}">
+          <div class="bg-blue-50 rounded-full flex items-center">
+            <div
+                class="bg-blue-300 rounded-full px-4 mr-4 font-bold text-blue-900"
+                th:text="${automata.getName()}"
+            >
+              Name
+            </div>
+            <div class="text-blue-800 text-xs uppercase" th:text="${automata.getType()}">
+              Type
+            </div>
+          </div>
+          <div
+              class="grid grid-cols-4 gap-2 mt-2 text-center text-sm text-blue-500 cursor-pointer"
+          >
+            <a
+                th:href="@{/logistix/do(unit=${automata.getName()},routine=0)}"
+                class="border border-blue-500 rounded-lg transition hover:bg-blue-600 hover:text-white grid place-items-center p-1"
+            >
+              Lift Items
+            </a>
+            <a
+                th:href="@{/logistix/do(unit=${automata.getName()},routine=1)}"
+                class="border border-blue-500 rounded-lg transition hover:bg-blue-600 hover:text-white grid place-items-center p-1"
+            >
+              Count Items
+            </a>
+            <a
+                th:href="@{/logistix/do(unit=${automata.getName()},routine=2)}"
+                class="border border-blue-500 rounded-lg transition hover:bg-blue-600 hover:text-white grid place-items-center p-1"
+            >
+              Use Transporter
+            </a>
+            <a
+                th:href="@{/logistix/do(unit=${automata.getName()},routine=3)}"
+                class="border border-blue-500 rounded-lg transition hover:bg-blue-600 hover:text-white grid place-items-center p-1"
+            >
+              Use Crane
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex-1 p-8 bg-white rounded-lg shadow">
+      <h1 class="font-bold text-3xl mb-4">Unit Logs</h1>
+      <ol class="space-y-2 divide-y text-sm gap-1 text-gray-500">
+        <div th:each="log: ${logs}">
+          <li style="white-space: pre-line" th:text="${log}">Log</li>
+        </div>
+      </ol>
+    </div>
+  </div>
+  <a
+      th:href="@{/logistix/inventory}"
+      class="mt-4 text-blue-500 hover:text-blue-700 no-underline hover:underline cursor-pointer"
+  >View Items Inventory</a
+  >
+</div>
+</body>
+</html>

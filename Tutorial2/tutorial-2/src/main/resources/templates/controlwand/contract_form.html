@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Control Wand</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="min-h-screen w-full bg-gray-100 py-24 flex flex-col items-center">
+      <h3 class="text-2xl font-bold">Contract Form</h3>
+      <div class="grid grid-cols-2 gap-4 mt-4">
+        <div class="bg-white rounded-lg shadow p-6">
+          <h3 class="text-xl font-bold">Buy Magic Tool</h3>
+          <p class="text-sm text-gray-400">Will be ignored if none of the spell selected</p>
+          <form class="flex flex-col gap-2 mt-4" th:action="@{buy-magictool}" method="POST">
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter tool name"
+              class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            />
+
+            <h5 class="font-bold text-gray-500">Required Spells</h5>
+            <div class="flex flex-col">
+              <div th:each="manaOption: ${manaIntensities}" class="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  th:id="${manaOption.toString().toLowerCase()}"
+                  name="requiredSpells"
+                  th:value="${manaOption}"
+                />
+                <label
+                  th:for="${manaOption.toString().toLowerCase()}"
+                  th:text="${manaOption}"
+                ></label>
+              </div>
+            </div>
+            <button
+              class="bg-blue-500 text-white hover:bg-blue-600 rounded px-6 py-2 mt-4"
+              type="submit"
+            >
+              Buy Magic Tool
+            </button>
+          </form>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6 flex flex-col">
+          <h3 class="text-xl font-bold">Contract Familiar</h3>
+          <form
+            class="mt-4 flex flex-col flex-1 gap-2"
+            th:action="@{contract-familiar}"
+            method="POST"
+          >
+            <label class="text-gray-700 text-sm font-bold" for="name"> Familiar Name </label>
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter familiar name"
+              class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            />
+            <button
+              class="bg-blue-500 text-white hover:bg-blue-600 rounded px-6 py-2 mt-2"
+              type="submit"
+            >
+              Form Contract
+            </button>
+          </form>
+        </div>
+        <!--- Remove `th:if="false"` below if you want to work for bonus assignment --->
+        <div th:if="false" class="col-span-2 bg-white rounded-lg shadow p-6 max-w-2xl">
+          <h3 class="text-xl font-bold">Save Recent Spells</h3>
+          <p class="text-sm text-gray-400">
+            Will be ignored if there's less than 2 spells and the chain spell will be adjusted based
+            on number of casted spells
+          </p>
+          <form th:action="@{save-recents}" method="POST" class="flex flex-col gap-4">
+            <div class="grid grid-cols-2 gap-4">
+              <div class="flex gap-4 items-center">
+                <label
+                  class="text-gray-700 text-sm font-bold text-right whitespace-nowrap"
+                  for="name"
+                  >Spell Name</label
+                >
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Enter spell name"
+                  class="appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                />
+              </div>
+              <div class="flex gap-4 items-center">
+                <label
+                  for="spellQuantity"
+                  class="text-gray-700 text-sm font-bold text-right whitespace-nowrap"
+                  >Quantity <span class="text-xs text-normal text-gray-400">(2-7)</span></label
+                >
+                <input
+                  type="number"
+                  id="spellQuantity"
+                  name="spellQuantity"
+                  min="2"
+                  max="7"
+                  placeholder="Enter spell quantity"
+                  class="appearance-none w-full block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                />
+              </div>
+            </div>
+            <button
+              class="bg-blue-500 text-white hover:bg-blue-600 rounded px-6 py-2"
+              type="submit"
+            >
+              Save Spell
+            </button>
+          </form>
+        </div>
+      </div>
+      <a
+        th:href="@{/control-wand}"
+        class="text-blue-500 hover:text-blue-600 mt-4 cursor-pointer no-underline hover:underline"
+        >Back to Control Wand</a
+      >
+    </div>
+  </body>
+</html>
